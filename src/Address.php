@@ -233,7 +233,8 @@ class Address
         $address = $this->normalizer->replace($map)->value();
         $matches = [];
         if (preg_match_all('/'.$patterns.'/u', $address, $matches, PREG_SET_ORDER) !== false) {
-            foreach ($matches as $values) {
+            $unique_matches = array_map("unserialize", array_unique(array_map("serialize", $matches)));
+            foreach ($unique_matches as $values) {
                 $temp = [];
                 foreach ($units as $key => $unit) {
                     $temp[$key] = isset($values[$unit]) === true ? $values[$unit] : '';
